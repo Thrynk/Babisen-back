@@ -18,6 +18,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res){
   client.connect(err => {
+    console.log("connected");
     const collection = client.db("babidd").collection("tournaments");
     collection.insertOne({name: "test", date: new Date()}, function(err, res){
       if(err) throw err;
