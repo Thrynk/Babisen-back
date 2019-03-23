@@ -6,13 +6,26 @@ const app = express();
 const token = process.env.FB_VERIFY_TOKEN;
 const access = process.env.FB_ACCESS_TOKEN;
 
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://babybot:" + process.env.BDD_PASSWORD + "@babisen-ow7v7.mongodb.net/test?retryWrites=true";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+
 app.set('port', (process.env.PORT || 5000));
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res){
-  res.send('Hello Youtube');
+  client.connect(err => {
+    const collection = client.db("babidd").collection("tournaments");
+    collection.insertOne({name: "test", date: new Date()}, function(err, res){
+      if(err) throw err;
+      console.log("document inserted");
+    });
+    client.close();
+  });
+  res.redirect("index.html");
 });
 
 app.get('/webhook', function(req, res){
