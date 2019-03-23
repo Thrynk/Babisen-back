@@ -13,7 +13,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/webhook', function(req, res){
-  let VERIFY_TOKEN = "test";
+  let VERIFY_TOKEN = "babisenestlameilleureassociationdumonde";
 
   let mode = req.query['hub.mode'];
   let token = req.query['hub.verify_token'];
