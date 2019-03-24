@@ -6,27 +6,25 @@ const app = express();
 const token = process.env.FB_VERIFY_TOKEN;
 const access = process.env.FB_ACCESS_TOKEN;
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://babybot:" + process.env.BDD_PASSWORD + "@babisen-ow7v7.mongodb.net/test?retryWrites=true";
-const client = new MongoClient(uri, { useNewUrlParser: true });
+const mongoose = require('mongoose');
+mongoose.connect("mongodb+srv://babybot:Q3fF<RRQm@babisencluster-35yvq.mongodb.net/babidd?retryWrites=true", {useNewUrlParser: true});
+
+const Tournament = mongoose.model('Tournament', { name: String, date: Date });
 
 app.set('port', (process.env.PORT || 5000));
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res){
-  client.connect(err => {
-    console.log("connected");
-    const collection = client.db("babidd").collection("tournaments");
-    collection.insertOne({name: "test", date: new Date()}, function(err, res){
-      if(err) throw err;
-      console.log("document inserted");
-    });
-    client.close();
+  console.log("test");
+  const t1 = new Tournament({name: "test", date: new Date()});
+  t1.save().then(function() {
+    console.log("inserted");
+    res.json({status: "OK"});
+  }).catch(function(error){
+    res.send(error);
   });
-  res.redirect("index.html");
 });
 
 app.get('/webhook', function(req, res){
@@ -66,6 +64,13 @@ app.post('/webhook', (req, res) => {
       //Get the sender PSID
       let sender_psid = webhook_event.sender.id;
       console.log('Sender PSID: ' + sender_psid);
+      // Check if the event is a message or postback and
+      // pass the event to the appropriate handler function
+      if (webhook_event.message) {
+          handleMessage(sender_psid, webhook_event.message);
+      } else if (webhook_event.postback) {
+          handlePostback(sender_psid, webhook_event.postback);
+      }
     });
 
     // Returns a '200 OK' response to all requests
@@ -83,15 +88,71 @@ app.listen(app.get('port'), function(){
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
+  let response;
 
+  if (received_message.text) {
+
+  }
 }
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
+  let response;
 
+  // Get the payload for the postback
+  let payload = received_postback.payload;
+
+  if(payload === 'GET_STARTED'){
+    response = askTemplate('Are you a Cat or Dog Person?');
+    callSendAPI(sender_psid, response);
+  }
 }
 
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
+  // Construct the message body
+    let request_body = {
+        "recipient": {
+            "id": sender_psid
+        },
+        "message": response
+    };
 
+    // Send the HTTP request to the Messenger Platform
+    request({
+        "uri": "https://graph.facebook.com/v2.6/me/messages",
+        "qs": { "access_token": access},
+        "method": "POST",
+        "json": request_body
+    }, (err, res, body) => {
+        if (!err) {
+
+        } else {
+            console.error("Unable to send message:" + err);
+        }
+    });
+}
+
+function askTemplate(text) => {
+    return {
+        "attachment":{
+            "type":"template",
+            "payload":{
+                "template_type":"button",
+                "text": text,
+                "buttons":[
+                    {
+                        "type":"postback",
+                        "title":"Cats",
+                        "payload":"CAT_PICS"
+                    },
+                    {
+                        "type":"postback",
+                        "title":"Dogs",
+                        "payload":"DOG_PICS"
+                    }
+                ]
+            }
+        }
+    }
 }
