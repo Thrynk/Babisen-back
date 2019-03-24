@@ -132,6 +132,11 @@ function handlePostback(sender_psid, received_postback) {
 // Sends response messages via the Send API
 function callSendAPI(sender_psid, response) {
   // Construct the message body
+
+    Tournament.find({name: "test"}, function(err, docs){
+      console.log(docs);
+    });
+
     let request_body = {
         "recipient": {
             "id": sender_psid
