@@ -133,7 +133,7 @@ function callSendAPI(sender_psid, response) {
     });
 }
 
-function askTemplate(text) => {
+function askTemplate(text) {
     return {
         "attachment":{
             "type":"template",
