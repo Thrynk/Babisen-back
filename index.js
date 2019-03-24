@@ -7,7 +7,7 @@ const verify = process.env.FB_VERIFY_TOKEN;
 const access = process.env.FB_ACCESS_TOKEN;
 
 const mongoose = require('mongoose');
-mongoose.connect"(mongodb://babybot:" + process.env.BDD_PASSWORD + "@ds121996.mlab.com:21996/heroku_38jhpxxd", {useNewUrlParser: true}).then(function(){
+mongoose.connect("mongodb://babybot:" + process.env.BDD_PASSWORD + "@ds121996.mlab.com:21996/heroku_38jhpxxd", {useNewUrlParser: true}).then(function(){
   console.log("connected to database");
 }).catch(function(error){
   console.log("Error" + error);
