@@ -9,6 +9,12 @@ const access = process.env.FB_ACCESS_TOKEN;
 const mongoose = require('mongoose');
 mongoose.connect("mongodb+srv://babybot:Q3fF<RRQm@babisencluster-35yvq.mongodb.net/babidd?retryWrites=true", {useNewUrlParser: true});
 
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log("connected to database");
+});
+
 const Tournament = mongoose.model('Tournament', { name: String, date: Date });
 
 app.set('port', (process.env.PORT || 5000));
