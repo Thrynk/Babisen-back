@@ -3,8 +3,10 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const app = express();
 
-const token = process.env.FB_VERIFY_TOKEN;
+const verify = process.env.FB_VERIFY_TOKEN;
 const access = process.env.FB_ACCESS_TOKEN;
+
+console.log(verify);
 
 const mongoose = require('mongoose');
 mongoose.connect("mongodb+srv://babybot:Q3fF<RRQm@babisencluster-35yvq.mongodb.net/babidd?retryWrites=true", {useNewUrlParser: true}).then(function(){
@@ -38,7 +40,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/webhook', function(req, res){
-  let VERIFY_TOKEN = token;
+  let VERIFY_TOKEN = verify;
 
   let mode = req.query['hub.mode'];
   let token = req.query['hub.verify_token'];
