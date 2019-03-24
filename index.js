@@ -6,13 +6,11 @@ const app = express();
 const verify = process.env.FB_VERIFY_TOKEN;
 const access = process.env.FB_ACCESS_TOKEN;
 
-console.log(verify);
-
 const mongoose = require('mongoose');
 mongoose.connect("mongodb+srv://babybot:Q3fF<RRQm@babisencluster-35yvq.mongodb.net/babidd?retryWrites=true", {useNewUrlParser: true}).then(function(){
   console.log("connected to database");
 }).catch(function(error){
-  console.log(error);
+  console.log("Error" + error);
 });
 
 /*var db = mongoose.connection;
