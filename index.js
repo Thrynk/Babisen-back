@@ -132,7 +132,6 @@ function callSendAPI(sender_psid, response) {
   // Construct the message body
 
     Tournament.find({name: "test"}, function(err, docs){
-      console.log(err);
       console.log(docs);
     });
 
