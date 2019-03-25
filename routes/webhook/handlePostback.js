@@ -87,6 +87,7 @@ module.exports = function handlePostback(sender_psid, received_postback) {
         console.log(error);
       }
     });
+    console.log(response);
     callSendAPI(sender_psid, response);
   }
   else if(payload === 'INFORMATIONS'){
