@@ -20,7 +20,7 @@ function askTemplate(text, ...buttons) {
 
 // Handles messaging_postbacks events
 module.exports = function handlePostback(sender_psid, received_postback) {
-  let response;
+  var response;
 
   // Get the payload for the postback
   let payload = received_postback.payload;
