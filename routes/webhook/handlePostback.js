@@ -51,37 +51,33 @@ module.exports = function handlePostback(sender_psid, received_postback) {
     function(err, res, body){
       if(!err){
         user_content = JSON.parse(body);
-        User.findOne({first_name: user_content.first_name, last_name: user_content.last_name}, function(err, user){
-          if(!user){
-            request({
-              headers: {
-                "Content-Type": "application/json"
-              },
-              uri: process.env.URL + "/api/users/register",
-              method: "POST",
-              json: {
-                "first_name": user_content.first_name,
-                "last_name": user_content.last_name,
-                "psid": sender_psid,
-                "role": "user"
-              }
-            }, function(err, res, request_body){
-              if(!err){
-                response = "Bonjour " + request_body.first_name + ". Je suis Baby'bot l'assistant du Bab'isen pour vous servir !";
-                console.log(response);
-                callSendAPI(sender_psid, response);
-                // Prochain tournoi
-              }
-              else{
-                console.log(err);
-              }
-            });
+        request({
+          headers: {
+            "Content-Type": "application/json"
+          },
+          uri: process.env.URL + "/api/users/register",
+          method: "POST",
+          json: {
+            "first_name": user_content.first_name,
+            "last_name": user_content.last_name,
+            "psid": sender_psid,
+            "role": "user"
+          }
+        }, function(err, res, request_body){
+          if(!err){
+            if(res.statusCode === 200){
+              response = "Bonjour " + request_body.first_name + ". Je suis Baby'bot l'assistant du Bab'isen pour vous servir !";
+              callSendAPI(sender_psid, response);
+              // Prochain tournoi
+            }
+            else if(res.statusCode === 422){
+              response = "Bonjour " + request_body.first_name + ". Bon retour parmi nous !";
+              callSendAPI(sender_psid, response);
+              // + prochain évenement
+            }
           }
           else{
-            response = "Bonjour " + user.first_name + ". Bon retour parmi nous !";
-            console.log(response);
-            callSendAPI(sender_psid, response);
-            // + prochain évenement
+            console.log(err);
           }
         });
       }
