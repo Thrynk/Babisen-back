@@ -20,7 +20,7 @@ function askTemplate(text, ...buttons) {
 
 // Handles messaging_postbacks events
 module.exports = function handlePostback(sender_psid, received_postback) {
-  var response;
+  let response;
 
   // Get the payload for the postback
   let payload = received_postback.payload;
@@ -69,6 +69,7 @@ module.exports = function handlePostback(sender_psid, received_postback) {
               if(!err){
                 response = "Bonjour " + request_body.first_name + ". Je suis Baby'bot l'assistant du Bab'isen pour vous servir !";
                 console.log(response);
+                callSendAPI(sender_psid, response);
                 // Prochain tournoi
               }
               else{
@@ -79,6 +80,7 @@ module.exports = function handlePostback(sender_psid, received_postback) {
           else{
             response = "Bonjour " + user.first_name + ". Bon retour parmi nous !";
             console.log(response);
+            callSendAPI(sender_psid, response);
             // + prochain évenement
           }
         });
@@ -87,8 +89,6 @@ module.exports = function handlePostback(sender_psid, received_postback) {
         console.log(error);
       }
     });
-    console.log(response);
-    callSendAPI(sender_psid, response);
   }
   else if(payload === 'INFORMATIONS'){
 
