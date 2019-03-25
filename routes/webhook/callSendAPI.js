@@ -5,15 +5,25 @@ const accessToken = process.env.FB_ACCESS_TOKEN;
 // Sends response messages via the Send API
 module.exports = function callSendAPI(sender_psid, response) {
   // Construct the message body
-
-    let request_body = {
+  let request_body;
+    if(response.attachment){
+      request_body = {
         "recipient": {
-            "id": sender_psid
+          "id": sender_psid
+        },
+        "message": response
+      };
+    }
+    else{
+      request_body = {
+        "recipient": {
+          "id": sender_psid
         },
         "message": {
           "text": response
         }
-    };
+      };
+    }
 
     // Send the HTTP request to the Messenger Platform
     request({

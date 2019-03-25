@@ -68,12 +68,56 @@ module.exports = function handlePostback(sender_psid, received_postback) {
             if(res.statusCode === 200){
               response = "Bonjour " + request_body.first_name + ". Je suis Baby'bot l'assistant du Bab'isen pour vous servir !";
               callSendAPI(sender_psid, response);
-              // Prochain tournoi
+              request({
+                uri: process.env.URL + "/api/tournaments/arriving",
+                method: "GET"
+              }, function(err, res, request_body){
+                request_body = JSON.parse(request_body);
+                var date = new Date(request_body.date.replace('.000', ''));
+                response = askTemplate("Le prochain tournoi: " + request_body.name + " est le " + date.toString() + ". Voulez-vous participer ?",
+                  {
+                    payload: "REGISTER_TOURNAMENT",
+                    title: "Oui !",
+                    type: "postback"
+                  },
+                  {
+                    payload: "DONT_REGISTER_TOURNAMENT",
+                    title: "Non !",
+                    type: "postback"
+                  }
+                );
+                callSendAPI(sender_psid, response);
+              });
             }
             else if(res.statusCode === 422){
               response = "Bonjour " + request_body.first_name + ". Bon retour parmi nous !";
               callSendAPI(sender_psid, response);
-              // + prochain évenement
+              request({
+                uri: process.env.URL + "/api/tournaments/arriving",
+                method: "GET"
+              }, function(err, res, request_body){
+                console.log(request_body);
+                if(request_body){
+                  request_body = JSON.parse(request_body);
+                  var date = new Date(request_body.date.replace('.000', ''));
+                  response = askTemplate("Le prochain tournoi: " + request_body.name + " est le " + date.toString() + ". Voulez-vous participer ?",
+                    {
+                      payload: "REGISTER_TOURNAMENT",
+                      title: "Oui !",
+                      type: "postback"
+                    },
+                    {
+                      payload: "DONT_REGISTER_TOURNAMENT",
+                      title: "Non !",
+                      type: "postback"
+                    }
+                  );
+                  callSendAPI(sender_psid, response);
+                }
+                else{
+                  callSendAPI(sender_psid, "Aucun tournoi de prévu pour le moment. :/");
+                }
+              });
             }
           }
           else{
