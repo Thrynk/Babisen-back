@@ -27,19 +27,7 @@ module.exports = function handlePostback(sender_psid, received_postback) {
 
   if(payload === 'GET_STARTED'){
     var user_content;
-    /*response = askTemplate("Veux-tu des informations sur l'association ou t'inscrire pour recevoir les nouveautés(tournois, événements, etc...)",
-      {
-        payload: "INFORMATIONS",
-        title: "Informations",
-        type: "postback"
-      },
-      {
-        payload: "SUBSCRIBE",
-        title: "S'inscrire",
-        type: "postback"
-      }
-    );*/
-
+    
     request({
       "uri": "https:\/\/graph.facebook.com\/" + sender_psid,
       "qs" : {

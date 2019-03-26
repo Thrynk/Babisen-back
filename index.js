@@ -23,7 +23,7 @@ app.use('/webhook', webhookRoutes);
 
 app.get('/', function(req, res){
   res.status(200).send("Welcome to Bab'isen api and webhook");
-})
+});
 
 app.listen(app.get('port'), function(){
   console.log("Server is listening");
