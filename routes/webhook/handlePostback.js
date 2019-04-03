@@ -5,7 +5,7 @@ const User = require('../../models/user');
 
 const accessToken = process.env.FB_ACCESS_TOKEN;
 
-function askTemplate(text, ...buttons) {
+function askTemplateButtons(text, ...buttons) {
     return {
         "attachment":{
             "type":"template",
@@ -27,7 +27,7 @@ module.exports = function handlePostback(sender_psid, received_postback) {
 
   if(payload === 'GET_STARTED'){
     var user_content;
-    
+
     request({
       "uri": "https:\/\/graph.facebook.com\/" + sender_psid,
       "qs" : {
@@ -63,7 +63,7 @@ module.exports = function handlePostback(sender_psid, received_postback) {
                 if(request_body){
                   request_body = JSON.parse(request_body);
                   var date = new Date(request_body.date.replace('.000', ''));
-                  response = askTemplate("Le prochain tournoi: " + request_body.name + " est le " + date.toString() + ". Voulez-vous participer ?",
+                  response = askTemplateButtons("Le prochain tournoi: " + request_body.name + " est le " + date.toString() + ". Voulez-vous participer ?",
                     {
                       payload: "REGISTER_TOURNAMENT",
                       title: "Oui !",
