@@ -1,9 +1,11 @@
 const accessToken = process.env.FB_ACCESS_TOKEN;
 
+const request = require("request");
+
 module.exports = {
 
-  this.getUserProfile = function(sender_psid){
-    return new Promise(resolve, reject){
+  getUserProfile: function(sender_psid){
+    return new Promise(function(resolve, reject){
       request({
         "uri": "https:\/\/graph.facebook.com\/" + sender_psid,
         "qs" : {
@@ -20,7 +22,7 @@ module.exports = {
           reject(err);
         }
       });
-    }
+    });
   }
 
 }

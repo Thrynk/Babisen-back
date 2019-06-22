@@ -1,9 +1,9 @@
-
+const request = require("request");
 
 module.exports = {
 
-  this.registerUser = function(user_content, sender_psid){
-    return new Promise(resolve, reject){
+  registerUser: function(user_content, sender_psid){
+    return new Promise(function(resolve, reject){
       request({
         headers: {
           "Content-Type": "application/json"
@@ -24,7 +24,7 @@ module.exports = {
           reject(err);
         }
       });
-    }
+    });
   }
 
 }

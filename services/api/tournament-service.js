@@ -1,8 +1,8 @@
-
+const request = require("request");
 
 module.exports = {
-  this.getArrivingTournament = function(){
-    return new Promise(resolve, reject){
+  getArrivingTournament: function(){
+    return new Promise(function(resolve, reject){
       request({
         uri: process.env.URL + "/api/tournaments/arriving",
         method: "GET"
@@ -19,6 +19,6 @@ module.exports = {
           reject(err);
         }
       });
-    }
+    });
   }
 }
