@@ -4,38 +4,39 @@ const accessToken = process.env.FB_ACCESS_TOKEN;
 
 // Sends response messages via the Send API
 module.exports = function callSendAPI(sender_psid, response) {
-  // Construct the message body
-  let request_body;
-    if(response.attachment){
-      request_body = {
-        "recipient": {
-          "id": sender_psid
-        },
-        "message": response
-      };
+    // Construct the message body
+    let request_body;
+    if (response.attachment) {
+        request_body = {
+            "recipient": {
+                "id": sender_psid
+            },
+            "message": response
+        };
+    } else {
+        request_body = {
+            "recipient": {
+                "id": sender_psid
+            },
+            "message": {
+                "text": response
+            }
+        };
     }
-    else{
-      request_body = {
-        "recipient": {
-          "id": sender_psid
-        },
-        "message": {
-          "text": response
-        }
-      };
-    }
+
+    console.log(request_body);
 
     // Send the HTTP request to the Messenger Platform
     request({
         uri: "https://graph.facebook.com/v2.6/me/messages",
-        qs: { "access_token": accessToken },
+        qs: {"access_token": accessToken},
         method: "POST",
         json: request_body
     }, (err, res, body) => {
         if (!err) {
-          if(res.statusCode == 200){
-            //Message envoyé
-          }
+            if (res.statusCode == 200) {
+                //Message envoyé
+            }
         } else {
             console.error("Unable to send message:" + err);
         }
