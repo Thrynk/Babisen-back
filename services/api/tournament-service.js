@@ -51,7 +51,8 @@ module.exports = {
                 method: "GET"
             }, function (err, res, request_body) {
                 if (!err) {
-                    if (request_body) {
+                    if (request_body)
+                        console.log(request_body)
                         resolve(JSON.parse(request_body));
                     } else {
                         resolve({});
