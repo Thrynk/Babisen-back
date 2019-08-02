@@ -1,6 +1,7 @@
 const request = require("request");
 const askTemplateButtons = require("../../routes/webhook/askTemplateButtons");
 const callSendAPI = require("../../routes/webhook/callSendAPI");
+const userService = require("./user-service");
 
 module.exports = {
     getArrivingTournament: function () {
@@ -10,7 +11,8 @@ module.exports = {
                 method: "GET"
             }, function (err, res, request_body) {
                 if (!err) {
-                    if (request_body) {
+                    if (request_body && res.statusCode === 200) {
+                        console.log(request_body, res.statusCode);
                         resolve(JSON.parse(request_body));
                     } else {
                         resolve({});
@@ -25,8 +27,8 @@ module.exports = {
         this.getArrivingTournament().then(function (body) {
             if (Object.keys(body).length !== 0) {
                 console.log(body._id);
-                var date = new Date(body.date.replace('.000', ''));
-                var response = askTemplateButtons("Le prochain tournoi: " + body.name + " est le " + date.toString() + ". Voulez-vous participer ?",
+                var date = new Date(body.startDate.replace('.000', ''));
+                /*var response = askTemplateButtons("Le prochain tournoi: " + body.name + " est le " + date.toString() + ". Voulez-vous participer ?",
                     {
                         payload: "REGISTER_TOURNAMENT/" + body._id,
                         title: "Oui !",
@@ -37,7 +39,22 @@ module.exports = {
                         title: "Non !",
                         type: "postback"
                     }
-                );
+                );*/
+                var response = {};
+                response.quick_replies = {
+                    text: "Le prochain tournoi: " + body.name + " est le " + date.toString() + ". Voulez-vous participer ?",
+                    quick_replies:[
+                        {
+                            content_type: "text",
+                            title: "Oui !",
+                            payload: "REGISTER_TOURNAMENT/" + body._id
+                        },{
+                            content_type: "text",
+                            title: "Non",
+                            payload: "DONT_REGISTER_TOURNAMENT"
+                        }
+                     ]
+                };
                 callSendAPI(sender_psid, response);
             } else {
                 callSendAPI(sender_psid, "Aucun tournoi de prévu pour le moment. :/");
@@ -52,15 +69,71 @@ module.exports = {
             }, function (err, res, request_body) {
                 if (!err) {
                     if (request_body){
-                        console.log(request_body);
                         resolve(JSON.parse(request_body));
                     } else {
-                        resolve({});
+                        resolve();
                     }
                 } else {
                     reject(err);
                 }
             });
         });
+    },
+    registerUserToTournament: function(tournamentId, sender_psid){
+        this.getTournamentById(tournamentId).then(function(tournament){
+            if(tournament){
+                console.log(tournament);
+                if(tournament.isSolo){
+                    /*return new Promise(function(resolve, reject){
+                        userService.getUserBySenderPsid(sender_psid).then(function (user) {
+                            request({
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                uri: process.env.URL + "/api/tournaments/attendee/" + tournamentId,
+                                method: "PUT",
+                                json: {
+                                    attendee: user._id
+                                }
+                            }, function (err, res, request_body) {
+                                if (!err) {
+                                    resolve(res.statusCode);
+                                } else {
+                                    reject(err);
+                                }
+                            });
+                        }).catch(function(error){
+                            console.log("error on update tournament", error);
+                        });
+                    });*/
+                }
+                else{
+                    return new Promise(function(resolve, reject){
+                        var response = {};
+                        response.quick_replies = {
+                            text: "Voulez-vous vous inscrire avec votre team si vous en avez une ?",
+                            quick_replies:[
+                                {
+                                    content_type: "text",
+                                    title: "Oui !",
+                                    payload: "REGISTER_WITH_TEAM/" + tournamentId
+                                },{
+                                    content_type: "text",
+                                    title: "Non",
+                                    payload: "DONT_REGISTER_WITH_TEAM"
+                                }
+                            ]
+                        };
+                        callSendAPI(sender_psid, response);
+                        resolve(200);
+                    });
+                }
+            }
+        }).catch(function(error){
+            console.log("error in getting tournament by ID");
+        });
+    },
+    registerWithTeamToTournament: function(sender_psid, tournamentId){
+        
     }
 }

@@ -25,6 +25,24 @@ module.exports = {
         }
       });
     });
+  },
+  getUserBySenderPsid: function(sender_psid){
+    return new Promise(function(resolve, reject){
+      request({
+        uri: process.env.URL + "/api/users/sender_psid/" + sender_psid,
+        method: "GET"
+      }, function (err, res, request_body) {
+        if (!err) {
+          if (request_body){
+            resolve(JSON.parse(request_body));
+          } else {
+            resolve();
+          }
+        } else {
+          reject(err);
+        }
+      });
+    });
   }
 
 }

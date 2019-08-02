@@ -13,7 +13,15 @@ module.exports = function callSendAPI(sender_psid, response) {
             },
             "message": response
         };
-    } else {
+    } else if(response.quick_replies) {
+        request_body = {
+            "recipient": {
+                "id": sender_psid
+            },
+            "message": response.quick_replies
+        };
+    }
+    else {
         request_body = {
             "recipient": {
                 "id": sender_psid
