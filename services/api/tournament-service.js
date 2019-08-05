@@ -12,7 +12,6 @@ module.exports = {
             }, function (err, res, request_body) {
                 if (!err) {
                     if (request_body && res.statusCode === 200) {
-                        console.log(request_body, res.statusCode);
                         resolve(JSON.parse(request_body));
                     } else {
                         resolve({});
@@ -26,7 +25,6 @@ module.exports = {
     sendArrivingTournamentsToUser: function (sender_psid) {
         this.getArrivingTournament().then(function (body) {
             if (Object.keys(body).length !== 0) {
-                console.log(body._id);
                 var date = new Date(body.startDate.replace('.000', ''));
                 /*var response = askTemplateButtons("Le prochain tournoi: " + body.name + " est le " + date.toString() + ". Voulez-vous participer ?",
                     {

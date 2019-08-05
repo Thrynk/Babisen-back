@@ -1,4 +1,5 @@
 const callSendAPI = require("../callSendAPI");
+const tournamentService = require('../../../services/api/tournament-service');
 
 module.exports = function(sender_psid, tournamentId){
     console.log(tournamentId);
