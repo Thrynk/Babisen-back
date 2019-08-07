@@ -122,8 +122,11 @@ module.exports = {
                                 }
                             ]
                         };
-                        callSendAPI(sender_psid, response);
-                        resolve(200);
+                        callSendAPI(sender_psid, response).then(function(status){
+                            resolve(status);
+                        }).catch(function(){
+                            reject();
+                        });
                     });
                 }
             }
@@ -133,5 +136,22 @@ module.exports = {
     },
     registerWithTeamToTournament: function(sender_psid, tournamentId){
         
+    },
+    getTournaments(offset = 0, limit = 10){
+        return Promise(function(resolve, reject){
+            request({
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                uri: process.env.URL + "/api/tournaments?offset=" + offset + "&limit=" + limit,
+                method: "GET"
+            }, function (err, res, request_body) {
+                if (!err) {
+                    resolve(request_body);
+                } else {
+                    reject(err);
+                }
+            });
+        });
     }
 }

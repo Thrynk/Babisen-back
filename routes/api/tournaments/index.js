@@ -5,11 +5,10 @@ const newTournament = require('./new');
 const arrivingTournament = require('./arriving');
 const tournamentById = require("./tournamentById");
 const updateTournamentAttendee  = require("./updateAttendees");
+const getTournaments = require("./getTournaments")
 
 // TOURNAMENTS
-tournaments.get('/', function(req, res){
-
-});
+tournaments.get('/', getTournaments);
 
 tournaments.get('/arriving', arrivingTournament);
 
