@@ -6,7 +6,7 @@ const User = mongoose.model('User', {
   last_name: String,
   psid: String,
   role: String,
-  affiliationTeam: ObjectId,
+  affiliationTeams: [ObjectId],
 
 });
 

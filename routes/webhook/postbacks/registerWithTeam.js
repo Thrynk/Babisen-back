@@ -4,8 +4,8 @@ const callSendAPI = require("../callSendAPI");
 
 module.exports = function(sender_psid, tournamentId){
     userService.getUserBySenderPsid(sender_psid).then(function(user){
-        console.log(user, user.affiliationTeam);
-        if(user.affiliationTeam){
+        console.log(user, user.affiliationTeams);
+        if(user.affiliationTeams){
 
         }
         else {

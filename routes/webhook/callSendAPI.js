@@ -32,21 +32,24 @@ module.exports = function callSendAPI(sender_psid, response) {
         };
     }
 
-    console.log(request_body);
+    console.log("Message sent : " + request_body.message + " to " + sender_psid);
 
-    // Send the HTTP request to the Messenger Platform
-    request({
-        uri: "https://graph.facebook.com/v2.6/me/messages",
-        qs: {"access_token": accessToken},
-        method: "POST",
-        json: request_body
-    }, (err, res, body) => {
-        if (!err) {
-            if (res.statusCode == 200) {
-                //Message envoyé
+    return new Promise(function(resolve, reject){
+        // Send the HTTP request to the Messenger Platform
+        request({
+            uri: "https://graph.facebook.com/v2.6/me/messages",
+            qs: {"access_token": accessToken},
+            method: "POST",
+            json: request_body
+        }, (err, res, body) => {
+            if (!err) {
+                if (res.statusCode === 200) {
+                    //Message envoyé
+                    resolve(res.statusCode);
+                }
+            } else {
+                reject(err);
             }
-        } else {
-            console.error("Unable to send message:" + err);
-        }
+        });
     });
 };
