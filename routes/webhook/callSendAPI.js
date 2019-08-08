@@ -13,6 +13,7 @@ module.exports = function callSendAPI(sender_psid, response) {
             },
             "message": response
         };
+
     } else if(response.quick_replies) {
         request_body = {
             "recipient": {
@@ -32,7 +33,7 @@ module.exports = function callSendAPI(sender_psid, response) {
         };
     }
 
-    console.log("Message sent : " + request_body.message + " to " + sender_psid);
+
 
     return new Promise(function(resolve, reject){
         // Send the HTTP request to the Messenger Platform
@@ -45,7 +46,13 @@ module.exports = function callSendAPI(sender_psid, response) {
             if (!err) {
                 if (res.statusCode === 200) {
                     //Message envoyé
+                    console.log("Message sent : " + request_body + " to " + sender_psid);
                     resolve(res.statusCode);
+                }
+                else{
+                    console.log("Message has not been sent");
+                    console.log(JSON.stringify(request_body, null, 4));
+                    reject(res.statusCode)
                 }
             } else {
                 reject(err);
