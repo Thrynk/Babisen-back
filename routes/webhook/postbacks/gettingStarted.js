@@ -8,11 +8,11 @@ module.exports = function (sender_psid) {
         userService.registerUser(body, sender_psid).then(function (resolved) {
             if (resolved.response.statusCode === 200) {
                 let response = "Bonjour " + resolved.body.first_name + ". Je suis Baby'bot l'assistant du Bab'isen pour vous servir !";
-                callSendAPI(sender_psid, response);
+                return callSendAPI(sender_psid, response);
             }
             else if(resolved.response.statusCode === 422){
                 let response = "Hey content de te revoir Bro !";
-                callSendAPI(sender_psid, response);
+                return callSendAPI(sender_psid, response);
             }
         }).then(function () {
             tournamentService.sendArrivingTournamentsToUser(sender_psid);
