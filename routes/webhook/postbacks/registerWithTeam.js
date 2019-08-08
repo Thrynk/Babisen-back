@@ -22,11 +22,13 @@ module.exports = function(sender_psid, tournamentId){
                     if(team.description){
                         element.subtitle = team.description;
                     }
-                    element.default_action = {
-                        type: "postback",
-                        title: "S'inscrire avec la team " + team.name,
-                        payload: "REGISTER_WITH_THIS_TEAM/" + tournamentId + "/" + team._id
-                    };
+                    element.buttons = [
+                        {
+                            "type":"postback",
+                            "title":"Choisir cette équipe",
+                            "payload":"REGISTER_WITH_THIS_TEAM/5d3f70f7decdb33790c47e02/5d4b5d8e59400304f4ce84c1"
+                        }
+                    ];
                     elements.push(element);
                 });
                 response = carousel(elements);
