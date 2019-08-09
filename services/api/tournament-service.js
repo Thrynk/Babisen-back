@@ -82,7 +82,7 @@ module.exports = {
             if(tournament){
                 console.log(tournament);
                 if(tournament.isSolo){
-                    /*return new Promise(function(resolve, reject){
+                    return new Promise(function(resolve, reject){
                         userService.getUserBySenderPsid(sender_psid).then(function (user) {
                             request({
                                 headers: {
@@ -95,7 +95,7 @@ module.exports = {
                                 }
                             }, function (err, res, request_body) {
                                 if (!err) {
-                                    resolve(res.statusCode);
+                                    resolve({ soloTournament: tournament.isSolo, status: res.statusCode });
                                 } else {
                                     reject(err);
                                 }
@@ -103,7 +103,7 @@ module.exports = {
                         }).catch(function(error){
                             console.log("error on update tournament", error);
                         });
-                    });*/
+                    });
                 }
                 else{
                     return new Promise(function(resolve, reject){
@@ -123,7 +123,7 @@ module.exports = {
                             ]
                         };
                         callSendAPI(sender_psid, response).then(function(status){
-                            resolve(status);
+                            resolve({ soloTournament: tournament.isSolo, status: status });
                         }).catch(function(){
                             reject();
                         });
@@ -133,9 +133,6 @@ module.exports = {
         }).catch(function(error){
             console.log("error in getting tournament by ID");
         });
-    },
-    registerWithTeamToTournament: function(sender_psid, tournamentId){
-        
     },
     getTournaments(offset = 0, limit = 10){
         return Promise(function(resolve, reject){
@@ -153,5 +150,25 @@ module.exports = {
                 }
             });
         });
+    },
+    registerTeamToTournament: function(tournamentId, teamId){
+        return new Promise(function(resolve, reject){
+            request({
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                uri: process.env.URL + "/api/tournaments/attendee/" + tournamentId,
+                method: "PUT",
+                json: {
+                    attendee: teamId
+                }
+            }, function (err, res, request_body) {
+                if (!err) {
+                    resolve(res.statusCode);
+                } else {
+                    reject(err);
+                }
+            });
+        });
     }
-}
+};

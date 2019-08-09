@@ -1,6 +1,8 @@
 const gettingStartedPostback = require('./postbacks/gettingStarted');
 const registerTournament = require('./postbacks/registerTournament');
 const registerWithTeam = require('./postbacks/registerWithTeam');
+const registerWithThisTeam = require("./postbacks/registerWithThisTeam");
+const nextTournaments = require("./postbacks/nextTournaments");
 
 // Handles messaging_postbacks events
 module.exports = function handlePostback(sender_psid, received_postback) {
@@ -18,6 +20,13 @@ module.exports = function handlePostback(sender_psid, received_postback) {
   else if(payload.match(/REGISTER_WITH_TEAM/) !== null){
     let payloadParts = payload.split("/");
     registerWithTeam(sender_psid, payloadParts[1]);
+  }
+  else if(payload.match(/REGISTER_WITH_THIS_TEAM/) !== null){
+    let payloadParts = payload.split("/");
+    registerWithThisTeam(sender_psid, payloadParts[1], payloadParts[2]);
+  }
+  else if(payload.match(/NEXT_TOURNAMENTS/) !== null){
+    nextTournaments(sender_psid);
   }
   else if(payload === 'INFORMATIONS'){
 
