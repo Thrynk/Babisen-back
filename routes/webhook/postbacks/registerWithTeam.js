@@ -26,7 +26,7 @@ module.exports = function(sender_psid, tournamentId){
                         {
                             "type":"postback",
                             "title":"Choisir cette équipe",
-                            "payload":"REGISTER_WITH_THIS_TEAM/5d3f70f7decdb33790c47e02/5d4b5d8e59400304f4ce84c1"
+                            "payload":"REGISTER_WITH_THIS_TEAM/"+ tournamentId + "/" + team._id
                         }
                     ];
                     elements.push(element);
