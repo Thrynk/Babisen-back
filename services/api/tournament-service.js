@@ -135,7 +135,7 @@ module.exports = {
         });
     },
     getTournaments(offset = 0, limit = 10){
-        return Promise(function(resolve, reject){
+        return new Promise(function(resolve, reject){
             request({
                 headers: {
                     "Content-Type": "application/json"

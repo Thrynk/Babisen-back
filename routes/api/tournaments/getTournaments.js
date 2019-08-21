@@ -2,7 +2,7 @@ const Tournament = require("../../../models/tournament");
 
 module.exports = function(req, res){
     let query = Tournament.find({startDate: {$gte: new Date()} }).sort({date: 1});
-    console.log(req.query);
+    /*console.log(req.query);*/
     let offset = Number(req.query.offset);
     let limit = Number(req.query.limit);
     console.log(offset,limit);
