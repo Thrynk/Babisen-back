@@ -78,9 +78,8 @@ module.exports = {
         });
     },
     registerUserToTournament: function(tournamentId, sender_psid){
-        this.getTournamentById(tournamentId).then(function(tournament){
+        return this.getTournamentById(tournamentId).then(function(tournament){
             if(tournament){
-                console.log(tournament);
                 if(tournament.isSolo){
                     return new Promise(function(resolve, reject){
                         userService.getUserBySenderPsid(sender_psid).then(function (user) {

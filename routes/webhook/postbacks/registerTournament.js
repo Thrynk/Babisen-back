@@ -4,6 +4,7 @@ const tournamentService = require('../../../services/api/tournament-service');
 module.exports = function(sender_psid, tournamentId){
     console.log(tournamentId);
     tournamentService.registerUserToTournament(tournamentId, sender_psid).then(function(response){
+        console.log(response);
         if(response.soloTournament && response.status === 200){
             callSendAPI(sender_psid, "Vous êtes bien inscrit au tournoi");
         }
