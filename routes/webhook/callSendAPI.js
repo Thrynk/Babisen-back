@@ -22,6 +22,14 @@ module.exports = function callSendAPI(sender_psid, response) {
             "message": response.quick_replies
         };
     }
+    else if(response.sender_action){
+        request_body = {
+            "recipient": {
+                "id": sender_psid
+            },
+            "sender_action": response.sender_action
+        };
+    }
     else {
         request_body = {
             "recipient": {

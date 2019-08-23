@@ -4,6 +4,8 @@ const router = express.Router();
 const handleMessage = require('./handleMessage');
 const handlePostback = require('./handlePostback');
 
+const callSendAPI = require("./callSendAPI");
+
 const verifyToken = process.env.FB_VERIFY_TOKEN;
 
 router.get('/', function(req, res){
@@ -40,7 +42,13 @@ router.post('/', function(req, res){
 
       //Get the sender PSID
       let sender_psid = webhook_event.sender.id;
-      /*console.log('Sender PSID: ' + sender_psid);*/
+
+      //Send sender action mark_seen
+      let response = {
+        sender_action: "mark_seen"
+      };
+      callSendAPI(sender_psid, response);
+
       // Check if the event is a message or postback and
       // pass the event to the appropriate handler function
       if (webhook_event.message) {
