@@ -33,7 +33,7 @@ router.post('/', function(req, res){
     if (body.object === 'page') {
 
         // Iterates over each entry - there may be multiple if batched
-        body.entry.forEach(function(entry) {
+        body.entry.forEach(async function (entry) {
 
             // Gets the message. entry.messaging is an array, but
             // will only ever contain one message, so we get index 0
@@ -47,21 +47,20 @@ router.post('/', function(req, res){
             let response = {
                 sender_action: "mark_seen"
             };
-            callSendAPI(sender_psid, response).then(function(){
-                callSendAPI(sender_psid, {
+            await callSendAPI(sender_psid, response).then(async function () {
+                await callSendAPI(sender_psid, {
                     sender_action: "typing_on"
                 });
-            }).catch(function(err){
+            }).catch(function (err) {
                 console.log("Error while sending mark seen to user");
             });
 
             // Check if the event is a message or postback and
             // pass the event to the appropriate handler function
             if (webhook_event.message) {
-                if(webhook_event.message.quick_reply){
+                if (webhook_event.message.quick_reply) {
                     handlePostback(sender_psid, webhook_event.message.quick_reply);
-                }
-                else {
+                } else {
                     handleMessage(sender_psid, webhook_event.message);
                 }
             } else if (webhook_event.postback) {
