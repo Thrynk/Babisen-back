@@ -43,7 +43,7 @@ router.post('/', function(req, res){
             //Get the sender PSID
             let sender_psid = webhook_event.sender.id;
 
-            //Send sender action mark_seen
+            //Send sender action mark_seen & typing_on
             let response = {
                 sender_action: "mark_seen"
             };

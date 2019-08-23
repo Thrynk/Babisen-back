@@ -23,10 +23,11 @@ module.exports = {
         });
     },
     sendArrivingTournamentsToUser: function (sender_psid) {
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minutes: 'numeric' };
         this.getArrivingTournament().then(function (body) {
             if (Object.keys(body).length !== 0) {
-                var date = new Date(body.startDate.replace('.000', ''));
-                /*var response = askTemplateButtons("Le prochain tournoi: " + body.name + " est le " + date.toString() + ". Voulez-vous participer ?",
+                var date = new Date(body.startDate);
+                var response = askTemplateButtons("Le prochain tournoi: " + body.name + " est le " + date.toLocaleDateString("fr-FR", options) + ". Voulez-vous participer ?",
                     {
                         payload: "REGISTER_TOURNAMENT/" + body._id,
                         title: "Oui !",
@@ -37,8 +38,8 @@ module.exports = {
                         title: "Non !",
                         type: "postback"
                     }
-                );*/
-                var response = {};
+                );
+                /*var response = {};
                 response.quick_replies = {
                     text: "Le prochain tournoi: " + body.name + " est le " + date.toString() + ". Voulez-vous participer ?",
                     quick_replies:[
@@ -52,7 +53,7 @@ module.exports = {
                             payload: "DONT_REGISTER_TOURNAMENT"
                         }
                      ]
-                };
+                };*/
                 callSendAPI(sender_psid, response);
             } else {
                 callSendAPI(sender_psid, "Aucun tournoi de prévu pour le moment. :/");
@@ -106,7 +107,7 @@ module.exports = {
                 }
                 else{
                     return new Promise(function(resolve, reject){
-                        var response = {};
+                        /*var response = {};
                         response.quick_replies = {
                             text: "Voulez-vous vous inscrire avec votre team si vous en avez une ?",
                             quick_replies:[
@@ -120,7 +121,19 @@ module.exports = {
                                     payload: "DONT_REGISTER_WITH_TEAM"
                                 }
                             ]
-                        };
+                        };*/
+                        var response = askTemplateButtons("Voulez-vous vous inscrire avec votre team si vous en avez une ?",
+                            {
+                                payload: "REGISTER_WITH_TEAM/" + tournamentId,
+                                title: "Oui !",
+                                type: "postback",
+                            },
+                            {
+                                payload: "DONT_REGISTER_WITH_TEAM",
+                                title: "Non",
+                                type: "postback"
+                            }
+                        );
                         callSendAPI(sender_psid, response).then(function(status){
                             resolve({ soloTournament: tournament.isSolo, status: status });
                         }).catch(function(){
