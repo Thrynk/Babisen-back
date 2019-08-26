@@ -1,2 +1,2 @@
-# Bab-isen-Messenger-Bot-API-
+# Bab-isen-Messenger-Bot-API
 Development repository for Baby'bot and API
