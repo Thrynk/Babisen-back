@@ -6,7 +6,7 @@ const apiRoutes = require('./routes/api');
 const webhookRoutes = require('./routes/webhook');
 
 const mongoose = require('mongoose');
-mongoose.connect("mongodb://babybot:" + process.env.BDD_PASSWORD + "@ds121996.mlab.com:21996/heroku_38jhpxxd", {useNewUrlParser: true}).then(function(){
+mongoose.connect("mongodb://" + process.env.BDD_USERNAME + ":" + process.env.BDD_PASSWORD + "@" + process.env.BDD_URL, {useNewUrlParser: true, useUnifiedTopology: true}).then(function(){
   console.log("connected to database");
 }).catch(function(error){
   console.log("Error" + error);
