@@ -6,11 +6,13 @@ const usersRouter = require('./users');
 const teamsRouter = require("./teams");
 const authRouter = require('./auth');
 
-router.use('/tournaments', tournamentsRouter);
+const authMiddleware = require('../../middlewares/auth');
+
+router.use('/tournaments', authMiddleware, tournamentsRouter);
 
 router.use('/users', usersRouter);
 
-router.use('/teams', teamsRouter);
+router.use('/teams', authMiddleware, teamsRouter);
 
 router.use('/auth', authRouter);
 

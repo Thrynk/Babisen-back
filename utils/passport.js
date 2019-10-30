@@ -10,7 +10,6 @@ module.exports = function () {
             clientSecret: process.env.clientSecret
         },
         function (accessToken, refreshToken, profile, done) {
-            console.log(accessToken, profile);
             let user = {
               first_name: profile._json.first_name,
               last_name: profile._json.last_name

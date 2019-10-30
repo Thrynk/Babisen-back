@@ -3,16 +3,14 @@ const users = express.Router();
 
 const register = require('./register');
 const userByPsid = require('./userByPsid')
+const me = require('./me');
 
-// TOURNAMENTS
-users.get('/', function(req, res){
+const authMiddleware = require("../../../middlewares/auth");
 
-});
+users.get('/me', authMiddleware, me);
 
 users.get('/sender_psid/:sender_psid', userByPsid);
 
 users.post('/register', register);
-
-/*tournaments.get('')*/
 
 module.exports = users;

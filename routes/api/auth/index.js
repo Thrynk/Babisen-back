@@ -10,7 +10,7 @@ router.route('/facebook')
             return res.send(401, 'User Not Authenticated');
         }
         req.auth = {
-            id: req.user.id
+            id: req.user._id
         };
 
         next();
