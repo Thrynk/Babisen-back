@@ -6,6 +6,6 @@ const getUserTeams = require("./getUserTeams");
 
 teams.post('/', newTeam);
 
-teams.get('/user/:id', getUserTeams);
+teams.get('/user/:id?', getUserTeams);
 
 module.exports = teams;

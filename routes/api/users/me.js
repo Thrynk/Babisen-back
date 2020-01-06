@@ -1,7 +1,6 @@
 const User = require("../../../models/user");
 
 module.exports = function(req, res){
-    console.log(req.user.id);
     User.findOne({_id: req.user.id}, function(err, user){
         if(!err){
             if(user){

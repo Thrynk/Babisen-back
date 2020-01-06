@@ -22,14 +22,11 @@ module.exports =  function (req, res, next){
     }
     else if(req.cookies.headerPayload && req.cookies.signature){
         let token = req.cookies.headerPayload + "." + req.cookies.signature;
-        console.log(token);
         jwt.verify(token, 'my-secret', function(err, decoded){
             if(!err){
-                console.log(decoded);
                 req.user = {
                     id: decoded.id
                 };
-                console.log(req.user.id);
                 next();
             }
             else{
