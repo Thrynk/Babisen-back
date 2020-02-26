@@ -4,7 +4,8 @@ const tournaments = express.Router();
 const newTournament = require('./new');
 const arrivingTournament = require('./arriving');
 const tournamentById = require("./tournamentById");
-const updateTournamentAttendee  = require("./updateAttendees");
+const addTournamentAttendee  = require("./addAttendee");
+const removeTournamentAttendee = require("./removeAttendee");
 const getNextTournaments = require("./getNextTournaments");
 const getCurrentTournaments = require("./getCurrentTournaments");
 const getFinishedTournaments = require("./getFinishedTournaments");
@@ -24,8 +25,8 @@ tournaments.get('/:id', tournamentById);
 
 tournaments.post('/', authMiddleware, newTournament);
 
-tournaments.put('/attendee/:id', updateTournamentAttendee);
+tournaments.put('/attendee/add/:id', authMiddleware, addTournamentAttendee);
 
-/*tournaments.get('')*/
+tournaments.put('/attendee/remove/:id', authMiddleware, removeTournamentAttendee);
 
 module.exports = tournaments;
