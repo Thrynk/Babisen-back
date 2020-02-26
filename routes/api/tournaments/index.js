@@ -6,8 +6,8 @@ const arrivingTournament = require('./arriving');
 const tournamentById = require("./tournamentById");
 const updateTournamentAttendee  = require("./updateAttendees");
 const getNextTournaments = require("./getNextTournaments");
-
 const getCurrentTournaments = require("./getCurrentTournaments");
+const getFinishedTournaments = require("./getFinishedTournaments");
 
 const authMiddleware = require('../../../middlewares/auth');
 
@@ -15,6 +15,8 @@ const authMiddleware = require('../../../middlewares/auth');
 tournaments.get('/next', getNextTournaments);
 
 tournaments.get('/current', getCurrentTournaments);
+
+tournaments.get('/finished', getFinishedTournaments);
 
 tournaments.get('/arriving', arrivingTournament);
 
