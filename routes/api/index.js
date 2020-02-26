@@ -9,7 +9,7 @@ const matchesRouter = require('./matches');
 
 const authMiddleware = require('../../middlewares/auth');
 
-router.use('/tournaments', authMiddleware, tournamentsRouter);
+router.use('/tournaments', tournamentsRouter);
 
 router.use('/users', usersRouter);
 
