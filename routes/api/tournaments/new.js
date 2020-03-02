@@ -1,7 +1,7 @@
 const Tournament = require('../../../models/tournament');
 
 module.exports = function (req, res) {
-    Tournament.findOne(req.body, function (err, tournament) {
+    Tournament.findOne({name: req.body.name}, function (err, tournament) {
         if (!tournament) {
             var tournament = new Tournament(req.body);
             console.log(tournament);
