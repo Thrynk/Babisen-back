@@ -1,8 +1,8 @@
-const Tournament = require("../../../models/tournament");
+const Match = require('../../../models/match');
 
 module.exports = function(req, res){
-    Tournament.updateOne({_id: req.params.id}, {$addToSet: {attendees: req.body.attendee} }, function(error, writeOpResult){
-        if(!error){
+    Match.updateOne({_id: req.body._id}, {awayScore: req.body.awayScore, homeScore: req.body.homeScore, eventStatus: req.body.eventStatus}, function(err, writeOpResult){
+        if(!err){
             if(writeOpResult.n > 0 && writeOpResult.nModified > 0){
                 res.sendStatus(200);
             }
@@ -17,4 +17,4 @@ module.exports = function(req, res){
             res.sendStatus(400);
         }
     });
-}
+};

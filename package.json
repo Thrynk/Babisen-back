@@ -5,15 +5,21 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec \"node -r dotenv/config\" index.js"
+    "dev": "nodemon --exec \"node -r dotenv/config\" index.js dotenv_config_path=.env",
+    "dev:staging": "nodemon --exec \"node -r dotenv/config\" index.js dotenv_config_path=.env.staging"
   },
   "author": "Thomas Carin - Leo Delaby",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.2.2",
     "mongoose": "^5.4.19",
+    "passport": "^0.4.0",
+    "passport-facebook-token": "^3.3.0",
     "request": "^2.88.0"
   },
   "devDependencies": {

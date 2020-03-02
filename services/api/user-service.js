@@ -13,8 +13,7 @@ module.exports = {
                 json: {
                     "first_name": user_content.first_name,
                     "last_name": user_content.last_name,
-                    "psid": sender_psid,
-                    "role": "user"
+                    "psid": sender_psid
                 }
             }, function(err, res, request_body){
                 if(!err){
