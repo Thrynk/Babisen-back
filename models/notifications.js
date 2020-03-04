@@ -3,7 +3,7 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 
 const Notifications = mongoose.model('Notifications', {
     tournamentId: ObjectId,
-    notifications: String,
+    notification: String,
     date: Date
 });
 
